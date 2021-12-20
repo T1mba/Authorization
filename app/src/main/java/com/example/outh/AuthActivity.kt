@@ -30,28 +30,10 @@ class AuthActivity : AppCompatActivity() {
     }
 
     fun login(view: android.view.View) {
-        if(emailText.text.isNotEmpty() && passText.text.isNotEmpty() ){
+        if(emailText.text.isNotEmpty() && passText.text.isNotEmpty() && math!=null ){
 
-
-
-            AlertDialog.Builder(this)
-                .setTitle("Успешно")
-                .setMessage("Вы авторизовались")
-                .setPositiveButton("Cancel", null)
-                .create()
-                .show()
-        }
-
-        else{
-            AlertDialog.Builder(this)
-                .setTitle("Ошибка")
-                .setMessage("Поля пустые, или заполненые не верно")
-                .setPositiveButton("Cancel", null)
-                .create()
-                .show()
-        }
-        username = emailText.text.toString()
-        password = passText.text.toString()
+            username = emailText.text.toString()
+            password = passText.text.toString()
             HTTP.requestPOST("http://s4a.kolei.ru/login",
                 JSONObject().put("username",username).put("password", password),
                 mapOf("Content-Type" to "application/json")
@@ -65,11 +47,11 @@ class AuthActivity : AppCompatActivity() {
                             if (json.getJSONObject("notice").has("answer"))
                                 throw Exception(json.getJSONObject("notice").getString("answer"))
                             if (json.getJSONObject("notice").has("token")) {
-                                token = json.getJSONObject("answer").getString("token")
+                                token = json.getJSONObject("notice").getString("token")
                                 runOnUiThread {
                                     Toast.makeText(
                                         this,
-                                        "Sucess get token: $token",
+                                        "success get token: $token",
                                         Toast.LENGTH_LONG
                                     ).show()
                                 }
@@ -103,11 +85,23 @@ class AuthActivity : AppCompatActivity() {
                     }
                 }
             }
+
+        }
+
+        else{
+            AlertDialog.Builder(this)
+                .setTitle("Ошибка")
+                .setMessage("Поля пустые, или заполненые не верно")
+                .setPositiveButton("Cancel", null)
+                .create()
+                .show()
+        }
+
     }
 
     fun logout(view: android.view.View) {
-        username = emailText.toString()
-        password = passText.toString()
+        username = emailText.text.toString()
+        password = passText.text.toString()
         HTTP.requestPOST("http://s4a.kolei.ru/logout",
             JSONObject().put("username", username),
             mapOf("Content-Type" to "application/json")

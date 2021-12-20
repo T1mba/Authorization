@@ -1,5 +1,3 @@
-package com.example.outh
-
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import org.json.JSONObject
@@ -78,7 +76,7 @@ object HTTP
 
         con.requestMethod = "HEAD"
         val contentType = con.contentType
-        return if(contentType.contains("Windows-1251", true))
+        return if(contentType!=null && contentType.contains("Windows-1251", true))
             "Windows-1251"
         else
             "UTF-8"

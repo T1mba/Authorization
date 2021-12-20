@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:padding="20dp"
+    android:paddingTop="300dp"
+
     android:layout_height="match_parent">
 
     <EditText
@@ -26,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Войти"
+        android:background="?android:selectableItemBackground"
         android:id="@+id/logButton"
         android:onClick="login"/>
     <Button

@@ -1,5 +1,6 @@
 package com.example.outh
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -13,14 +14,16 @@ class AuthActivity : AppCompatActivity() {
     private lateinit var emailText:EditText
     private lateinit var passText:EditText
     private lateinit var math:String
+    private lateinit var app:MyApp
     private lateinit var username:String
     private lateinit var logButton:Button
     private lateinit var password:String
-    private lateinit var token:String
+
     private lateinit var logoutButton:Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
+        app = applicationContext as MyApp
         emailText = findViewById(R.id.editTextTextEmailAddress)
         passText = findViewById(R.id.editTextTextPassword)
         logButton = findViewById(R.id.logButton)
@@ -47,11 +50,11 @@ class AuthActivity : AppCompatActivity() {
                             if (json.getJSONObject("notice").has("answer"))
                                 throw Exception(json.getJSONObject("notice").getString("answer"))
                             if (json.getJSONObject("notice").has("token")) {
-                                token = json.getJSONObject("notice").getString("token")
+                                app.token = json.getJSONObject("notice").getString("token")
                                 runOnUiThread {
                                     Toast.makeText(
                                         this,
-                                        "success get token: $token",
+                                        "success get token: $app.token",
                                         Toast.LENGTH_LONG
                                     ).show()
                                 }
@@ -72,6 +75,7 @@ class AuthActivity : AppCompatActivity() {
                             }
 
                         }
+                        startActivity(Intent(this, MainActivity::class.java))
                     }
                     else{
                         runOnUiThread {
@@ -106,7 +110,7 @@ class AuthActivity : AppCompatActivity() {
             JSONObject().put("username", username),
             mapOf("Content-Type" to "application/json")
         ){result, error, code ->
-            token = ""
+            app.token = ""
             runOnUiThread {
                 if(result!=null){
 

@@ -8,6 +8,7 @@
         android:label="Авторизация"
         android:roundIcon="@mipmap/icon_round"
         android:supportsRtl="true"
+        android:name=".MyApp"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Outh">
         <activity
